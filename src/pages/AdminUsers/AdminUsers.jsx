@@ -1,0 +1,207 @@
+import { useEffect, useState, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import {
+  useGetUserQuery,
+  useDeleteUserMutation,
+  useGetByIdQuery,
+  useUpdateUserMutation
+} from '../../redux/features/users';
+import './adminusers.scss';
+import { Switch } from 'antd';
+import Error from '../Error/Error';
+import { PiEmptyBold } from "react-icons/pi";
+
+const AdminUsers = () => {
+  const navigate = useNavigate();
+  const decoded = localStorage.getItem("Access")
+    ? jwtDecode(localStorage.getItem("Access"))
+    : {};
+  const {data: user} = useGetByIdQuery(decoded?.userId, {
+    skip: !decoded?.userId
+  });
+  const { data: buser, isLoading, error } = useGetUserQuery();
+  const [deleteUser] = useDeleteUserMutation()
+  const [updateUser] = useUpdateUserMutation()
+  const bodyRef = useRef(null);
+  const sidebarRef = useRef(null);
+  const [search, setSearch] = useState('');
+  const [checking, setChecking] = useState(false);
+  const userSearch = buser?.filter((el) => {
+    return el.name.toLowerCase().includes(search.toLowerCase());
+  });
+  const onChange = (checked) => {
+    if (!checked) {
+      setChecking(false)
+    } else {
+      setChecking(true)
+    }
+  };
+
+  const updateUserStatus = async (user_id, useractived) => {
+    try {
+      await updateUser({ id: user_id, useractived: !useractived }).unwrap();
+    } catch (err) {
+      alert(err);
+    }
+  }
+
+  const removeUser = async (id) => {
+    try {
+      await deleteUser({ id }).unwrap();
+    } catch (error) {
+      console.log(error); 
+    }
+  }
+
+  const handleModeToggle = () => {
+    if (checking) {
+      setChecking(false)
+      localStorage.setItem("mode", "light");
+    } else {
+      setChecking(true)
+      localStorage.setItem("mode", "dark");
+    }
+  };
+
+  const handleSidebarToggle = () => {
+    sidebarRef.current.classList.toggle("close");
+    if (sidebarRef.current.classList.contains("close")) {
+      localStorage.setItem("status", "close");
+    } else {
+      localStorage.setItem("status", "open");
+    }
+  };
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem("mode");
+    if (savedMode === "dark") {
+        setChecking(true)
+    } else {
+        setChecking(false)
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user !== null) {
+      if (user?.role === 'admin') {
+        navigate("/admin-users");
+      } else if (localStorage.getItem("Access")) {
+        navigate(-1);
+      } else {
+        navigate("/");
+      }
+    }
+  }, [user]);
+
+  if (isLoading) return <div className='main-loading'><img src="/Loading.svg" alt="" /></div>
+  if (error) return <Error/> 
+  
+  return (
+    <>
+        <div className="all-wrapper" ref={bodyRef}>
+        <aside ref={sidebarRef} className={checking ? 'aside-def' : ''}>
+        <div className="logo-name">
+            <div className="logo-image">
+               <img src="/Logo3.png" alt=""/>
+            </div>
+            <Link to={'/'} className="logo_name"  style={{color: !checking ? 'black' : 'white'}}>Binomo</Link>
+        </div>
+        <div className="menu-items">
+            <ul className="nav-links">
+                <li><Link to={'/admin'}>
+                    <i className="uil uil-estate"></i>
+                    <span className="link-name">Dahsboard</span>
+                </Link></li>
+                <li><Link to={'/admin-transaction'}>
+                    <i className="uil uil-chart"></i>
+                    <span className="link-name">Transactions</span>
+                </Link></li>
+                <li><Link to={'/admin-users'}>
+                    <i className="uil uil-thumbs-up l-active"></i>
+                    <span className="link-name l-active">Users</span>
+                </Link></li>
+                <li><Link to={'/admin-admins'}>
+                    <i className="uil uil-comments"></i>
+                    <span className="link-name">Admins</span>
+                </Link></li>
+            </ul>
+            
+            <ul className="logout-mode">
+                <li><a href="#">
+                    <i className="uil uil-signout"></i>
+                    <span className="link-name" onClick={() => {
+                        localStorage.removeItem("Access");
+                        navigate("/login");
+                        window.location.reload();
+                      }} >Logout</span>
+                </a></li>
+                <li className="mode">
+                    <a href="#">
+                        <i className="uil uil-moon"></i>
+                    <span className="link-name">Dark Mode</span>
+                </a>
+                <div className="mode-toggle" onClick={handleModeToggle}>
+                  <Switch checked={checking} onChange={onChange} /> 
+                </div>
+            </li>
+            </ul>
+        </div>
+    </aside>
+    <aside className={checking ? 'aside-def dashboard' : 'dashboard'}>
+        <div className={checking ? 'aside-def top' : 'top'}>
+            <i className="uil uil-bars sidebar-toggle" style={{color: !checking ? 'black' : 'white'}} onClick={handleSidebarToggle}></i>
+            <div className="search-box">
+                <i className="uil uil-search"></i>
+                <input type="text" onChange={(e) => setSearch(e.target.value)} placeholder="Search here..."/>
+            </div>
+            <img src={`https://binomo-backend-v1.onrender.com/${user?.image}`} alt="" style={{cursor: 'pointer'}} onClick={() => navigate('/profile')}/>
+        </div>
+        <div className="dash-content">
+            <div className="activity">
+                <div className="title">
+                    <i className="uil uil-clock-three"></i>
+                    <span className="text">Users Control</span>
+                </div>
+                <div className="activity-data-second act-user-scroll">
+                    {userSearch?.filter((el) => el?.role === 'user').length === 0 ? (
+                        <div className="no-data">
+                            <PiEmptyBold />
+                            <p style={{color: checking ? "white" : "black"}}>No users found</p>
+                        </div>
+                    ) : (
+                        userSearch?.filter((el) => el?.role === 'user').map((el) => {
+                            return(
+                                <div className="ad-line"  key={el?._id}>
+                                    <div className="al-line">
+                                        <span>{el?.name}</span>
+                                    </div>
+                                <div className="al-line">
+                                    <span>{el?.email}</span>
+                                </div>
+                                <div className="al-line">
+                                    <span style={{margin: "auto"}}>{Number(el?.wallet).toFixed(2)}</span>
+                                </div>
+                                <div className="al-line">
+                                    <span style={{margin: "auto"}}>{el?.useractived ? 'Active' : 'Baned'}</span>
+                                </div>
+                                <div className="al-btn">
+                                <button className='b-ban' onClick={() => updateUserStatus(el?._id, el?.useractived)}>{el?.useractived ? "Ban" : "Unban"}</button>
+                                <Link to={`/admin-edit/${el?._id}`}>
+                                  <button className='b-edit'>Edit</button>
+                                </Link>
+                                <button className='b-delete' onClick={() => removeUser(el?._id)}>Delete</button>
+                                </div>
+                            </div>
+                        )
+                    }))}
+                </div>
+            </div>
+        </div>
+    </aside>
+        </div>
+    </>
+  )
+}
+
+export default AdminUsers
