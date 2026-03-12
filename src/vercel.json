@@ -8,6 +8,9 @@
   ],
   "routes": [
     { "handle": "filesystem" },
+    { "src": "/coin/(.*)", "dest": "/index.html" },
+    { "src": "/user/(.*)", "dest": "/index.html" },
+    { "src": "/update/(.*)", "dest": "/index.html" },
     { "src": "/.*", "dest": "/index.html" }
   ]
 }
