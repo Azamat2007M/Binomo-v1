@@ -142,7 +142,7 @@ const Followers = () => {
             .map((el) => {
               return (
                 <Link to={`/user/${el.author_id}`} className="r-line" key={el._id}>
-                  <img src={`https://binomo-backend-v1.onrender.com/${buser.filter((elements) => elements._id === el.author_id).map((elements) => elements.image)}`} alt="" />
+                  <img src={buser.filter((elements) => elements._id === el.author_id).map((elements) => elements.image)} alt="" />
                   <b>{buser.filter((elements) => elements._id === el.author_id).map((elements) => elements.name)}</b>
                   <p>{Math.round(buser.filter((elements) => elements._id === el.author_id).map((elements) => elements.wallet))}$</p>
                 </Link>

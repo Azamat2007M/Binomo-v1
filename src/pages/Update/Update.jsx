@@ -26,28 +26,46 @@ const Update = () => {
     const file = e.target.files[0];
     if (!file) return;
 
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
+
+    // проверка формата
+    if (!allowedTypes.includes(file.type)) {
+      setStatus({
+        status: 403,
+        title: "Only PNG, JPG or JPEG images are allowed!"
+      });
+
+      e.target.value = null;
+      setImagePreview(null);
+      setImageFile(null);
+      return;
+    }
+
     const img = new Image();
     img.src = URL.createObjectURL(file);
 
     img.onload = () => {
-      if (img.width <= img.height + 200 || img.height == img.width) {
+      if (img.width <= img.height + 200 || img.height === img.width) {
         setStatus({
           status: 200,
-          title:""
-        })
+          title: ""
+        });
+
         setImagePreview(URL.createObjectURL(file));
-        setImageFile(file); 
+        setImageFile(file);
       } else {
         setStatus({
           status: 403,
           title: "Only square images are allowed!"
-        })
-        e.target.value = null; 
+        });
+
+        e.target.value = null;
         setImagePreview(null);
-        setImageFile(null); 
+        setImageFile(null);
       }
     };
   };
+  
   const updateUser = async (e) => {
     e.preventDefault();
 

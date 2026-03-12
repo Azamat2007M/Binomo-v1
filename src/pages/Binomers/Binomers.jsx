@@ -146,7 +146,7 @@ const Binomers = () => {
               .map((el) => {
                 return (
                   <Link to={`/user/${el?._id}`} className="r-line" key={el?._id}>
-                    <img src={`${API}${el?.image}`} alt="" />
+                    <img src={`${el?.image}`} alt="" />
                     <b>{el?.name}</b>
                     <p>{Math.round(el?.wallet)}$</p>
                   </Link>
@@ -158,7 +158,7 @@ const Binomers = () => {
             {buser.slice(0, 50).map((el) => (
               <div className="b-line" key={el?._id}>
                 <div className="bl-top">
-                  <img src={`${API}${el?.image}`} alt="" />
+                  <img src={`${el?.image}`} alt="" />
                   <div className="bl-info">
                     <b>{el?.name}</b>
                     <p>Followers: {el?.followers}</p>
