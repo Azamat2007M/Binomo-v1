@@ -155,7 +155,7 @@ const AdminUsers = () => {
                 <i className="uil uil-search"></i>
                 <input type="text" onChange={(e) => setSearch(e.target.value)} placeholder="Search here..."/>
             </div>
-            <img src={`https://binomo-backend-v1.onrender.com/${user?.image}`} alt="" style={{cursor: 'pointer'}} onClick={() => navigate('/profile')}/>
+            <img src={user?.image} alt="" style={{cursor: 'pointer'}} onClick={() => navigate('/profile')}/>
         </div>
         <div className="dash-content">
             <div className="activity">

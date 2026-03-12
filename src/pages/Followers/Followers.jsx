@@ -174,7 +174,7 @@ const Followers = () => {
                   <div className="b-line" key={el._id}>
                     <div className="some">
                       <div className="bl-top">
-                        <img src={`https://binomo-backend-v1.onrender.com/${user?.image}`} alt="" />
+                        <img src={user?.image} alt="" />
                         <div className="bl-info">
                           <b>{user?.name}</b>
                           <p>Followers: {user?.followers}</p>

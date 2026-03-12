@@ -179,23 +179,23 @@ const Nav = () => {
                       <>
                         {user?.level === 1 ? (
                             <div className="p-image1 p-image">
-                              <img src={`https://binomo-backend-v1.onrender.com/${user?.image}`} alt="" />
+                              <img src={user?.image} alt="" />
                             </div>
                           ) : user?.level === 2 ? (
                             <div className="p-image2 p-image">
-                              <img src={`https://binomo-backend-v1.onrender.com/${user?.image}`} alt="" />
+                              <img src={user?.image} alt="" />
                             </div>
                           ) : user?.level === 3 ? (
                             <div className="p-image3 p-image">
-                              <img src={`https://binomo-backend-v1.onrender.com/${user?.image}`} alt="" />
+                              <img src={user?.image} alt="" />
                             </div>
                           ) : user?.level === 4 ? (
                             <div className="p-image4 p-image">
-                              <img src={`https://binomo-backend-v1.onrender.com/${user?.image}`} alt="" />
+                              <img src={user?.image} alt="" />
                             </div>
                           ) : user?.level >= 5 ? (
                             <div className="p-image5 p-image">
-                              <img src={`https://binomo-backend-v1.onrender.com/${user?.image}`} alt="" />
+                              <img src={user?.image} alt="" />
                             </div>
                           ) : null}
                       </>
