@@ -18,71 +18,9 @@ const Followers = () => {
     ? jwtDecode(localStorage.getItem('Access'))
     : {};
   const { data: buser, isLoading, error } = useGetUserQuery();
-
-
-  const [isFollowing, setIsFollowing] = useState(false); 
-
-  const handleF = async (userid) => {
-    try {
-      setIsFollowing(true); 
-
-      const userToUpdate = buser.find(user => user?._id === userid);
-      if (!userToUpdate) {
-        console.error("User not found");
-        setIsFollowing(false); 
-        return;
-      }
-
-      const response = await axios.get(`http://localhost:7777/binomers`)
-
-      const similarEntry = response.data.find(el => el.author_id === userid && el.user_id === decoded.user._id);
-
-      if (!similarEntry) {
-        await axios.patch(`https://binomo-backend-v1.onrender.com/users/${userid}`, {
-          followers: userToUpdate.followers + 1
-        });
-
-        await axios.post(`http://localhost:7777/binomers`, {
-          user_id: decoded.user._id, 
-          author_id: userid, 
-        });
-      }
-
-      window.location.reload()
-    } catch (error) {
-      console.error("Error updating user:", error);
-      alert("Error updating user. Please try again.");
-      setIsFollowing(false); 
-    }
-  }
-  const handleT = async (userid) => {
-    try {
-      setIsFollowing(true); 
-
-      const userToUpdate = buser.find(user => user?._id === userid);
-      if (!userToUpdate) {
-        console.error("User not found");
-        setIsFollowing(false); 
-        return;
-      }
-
-      const response = await axios.get(`http://localhost:7777/binomers`)
-
-      const similarEntry = response.data.find(el => el.author_id === userid && el.user_id === decoded.user._id);
-
-      if (similarEntry) {
-        await axios.patch(`https://binomo-backend-v1.onrender.com/users/${userid}`, {
-          followers: userToUpdate.followers - 1
-        });
-        await axios.delete(`http://localhost:7777/binomers/${similarEntry.id}`);
-      }
-
-      window.location.reload()
-    } catch (error) {
-      console.error("Error updating user:", error);
-      setIsFollowing(false);
-    }
-  }
+  const filteredBinomers = binomers
+                .filter(item => item.author_id === decoded?.userId)
+                .filter(el => buser?.some(elements => elements._id === el.user_id));
 
   const getBinomers = async () => {
     try {
@@ -154,41 +92,34 @@ const Followers = () => {
             )}
         </div>
         ) : (
-          <div className="b-card">
-            {(() => {
-              const filteredBinomers = binomers
-                .filter(item => item.author_id === decoded?.userId)
-                .filter(el => buser.some(elements => elements._id === el.user_id));
-              
-              if (filteredBinomers.length === 0) {
-                return (
-                  <div className="b-empty" style={{width: "90%", margin: "auto"}}>
-                    <img src={emptyImg} alt="Empty" />
-                  </div>
-                );
-              }
-              
-              return filteredBinomers.map((el) => {
+          <div className="fc-wrapper">
+            <div className="fl-card">
+            {filteredBinomers.map((el) => {
                 const user = buser.find(elements => elements._id === el.user_id);
                 return (
-                  <div className="b-line" key={el._id}>
+                  <div className="f-line" key={el._id}>
                     <div className="some">
-                      <div className="bl-top">
+                      <div className="fl-top">
                         <img src={user?.image} alt="" />
-                        <div className="bl-info">
+                        <div className="fl-info">
                           <b>{user?.name}</b>
                           <p>Followers: {user?.followers}</p>
                         </div>
                       </div>
                       <p>Balance: {Math.round(user?.wallet)}$</p>
-                      <div className="b-buttons">
+                      <div className="f-buttons">
                         <Link to={`/user/${el.user_id}`} style={{width: '100%'}} className='b-view'>View</Link>
                       </div>
                     </div>
                   </div>
-                );
-              });
-            })()}
+                )
+              })}
+            </div>
+            {filteredBinomers.length === 0 ? (
+              <div className="b-empty" style={{width: "90%", margin: "auto"}}>
+                <img src={emptyImg} alt="Empty" />
+              </div>
+            ) : null}
           </div>
         )}
         </div>

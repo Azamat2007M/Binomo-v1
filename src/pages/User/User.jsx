@@ -121,31 +121,31 @@ const User = () => {
                     {buser?.level === 1 ? (
                           <div className="p-image">
                             <div className="p-image1">
-                              <img src={`https://binomo-backend-v1.onrender.com/${buser?.image}`} alt="" />
+                              <img src={buser?.image} alt="" />
                             </div>
                           </div>
                         ) : buser?.level === 2 ? (
                           <div className="p-image">
                             <div className="p-image2">
-                              <img src={`https://binomo-backend-v1.onrender.com/${buser?.image}`} alt="" />
+                              <img src={buser?.image} alt="" />
                             </div>
                           </div>
                         ) : buser?.level === 3 ? (
                           <div className="p-image">
                             <div className="p-image3">
-                              <img src={`https://binomo-backend-v1.onrender.com/${buser?.image}`} alt="" />
+                              <img src={buser?.image} alt="" />
                             </div>
                           </div>
                         ) : buser?.level === 4 ? (
                           <div className="p-image">
                             <div className="p-image4">
-                              <img src={`https://binomo-backend-v1.onrender.com/${buser?.image}`} alt="" />
+                              <img src={buser?.image} alt="" />
                             </div>
                           </div>
                         ) : buser?.level >= 5 ? (
                           <div className="p-image">
                             <div className="p-image5">
-                              <img src={`https://binomo-backend-v1.onrender.com/${buser?.image}`} alt="" />
+                              <img src={buser?.image} alt="" />
                             </div>
                           </div>
                         ) : null}

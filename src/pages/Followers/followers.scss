@@ -25,3 +25,85 @@ $black-b: #1E1F22;
         border-bottom: 2px solid $orange-b;
     }
 }
+
+.fc-wrapper{
+    width: 80%;
+    .fl-card{
+        width: 100%;
+        display: grid;
+        align-items: center;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 40px;
+        .f-line{
+            width: 100%;
+            background-color: black;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            .fl-top{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                img{
+                    width: 50px;
+                    height: 50px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                    background-color: black;
+                }
+                .fl-info{
+                    display: flex;
+                    flex-direction: column;
+                    text-align: end;
+                    p{
+                        margin: 0;
+                    }
+                }
+                
+            }
+            p{
+                margin: 20px 0;
+            }
+            .f-buttons{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .b-follow{
+                    width: 70%;
+                    background-color: $orange-b;
+                    font-size: 1.2rem;
+                    padding: 10px 0;
+                    border: none;
+                    border-radius: 10px;
+                    font-weight: 700;
+                    cursor: pointer;
+                }
+                .b-followed{
+                    width: 70%;
+                    background-color: $grey-b;
+                    color: white;
+                    font-size: 1.2rem;
+                    padding: 10px 0;
+                    border: 2px solid $greyb-b;
+                    border-radius: 10px;
+                    font-weight: 700;
+                    cursor: pointer;
+                }
+                .b-view{
+                    width: 25%;
+                    padding: 10px;
+                    font-size: 1rem;
+                    font-weight: 700;
+                    cursor: pointer;
+                    border-radius: 10px;
+                    background-color: transparent;
+                    border: 2px solid $orange-b;
+                    color: white;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+        }
+    }
+}
