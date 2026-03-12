@@ -20,6 +20,7 @@
   import AdminEdit from './pages/AdminEdit/AdminEdit'
   import { jwtDecode } from 'jwt-decode'
   import { useGetByIdQuery } from './redux/features/users'
+  import TawkTo from './tawk'
 
   const App = () => {   
     const decoded = localStorage.getItem("Access")
@@ -33,26 +34,27 @@
 
     return (
       <>
-          <Routes>
-            <Route path='/' element={localStorage.getItem("Access") == null ? <Home /> : <CryptoDataFetcher />} />
-            <Route path='/login' element={localStorage.getItem("Access") == null ? <Login /> : <Error />} />
-            <Route path='/register' element={localStorage.getItem("Access") == null ? <Register /> : <Error />} />
-            <Route path='/followers' element={localStorage.getItem("Access") == null ? <Error /> : <Followers />} />
-            <Route path='/introductiondemo' element={<IntroDemo />} />
-            <Route path='/profile' element={localStorage.getItem("Access") == null ? <Error /> : <Profile />} />
-            <Route path='/binomers' element={localStorage.getItem("Access") == null ? <Error /> : <Reyting />} />
-            <Route path='/ban' element={user?.useractived === false ? <Baned /> : <Baned />} />
-            <Route path='/transaction' element={localStorage.getItem("Access") == null ? <Error /> : <Transaction />} />
-            <Route path="/coin/:symbol" element={localStorage.getItem("Access") == null ? <Error /> : <Product />} />
-            <Route path="/user/:id" element={localStorage.getItem("Access") == null ? <Error /> : <User />} />
-            <Route path="/update/:id" element={localStorage.getItem("Access") == null ? <Error /> : <Update />} />
-            <Route path='/admin' element={user?.role === "admin" && user?.useractived === true ? <Admin /> : <Error />} />
-            <Route path='/admin-users' element={user?.role === "admin" && user?.useractived === true ? <AdminUsers /> : <Error />} />
-            <Route path='/admin-admins' element={user?.role === "admin" && user?.useractived === true ? <AdminAdmins /> : <Error />} />
-            <Route path='/admin-transaction' element={user?.role === "admin" && user?.useractived === true ? <AdminTransaction /> : <Error />} />
-            <Route path='/admin-edit/:id' element={user?.role === "admin" && user?.useractived === true ? <AdminEdit /> : <Error />} />
-            <Route path='*' element={<Error />} />
-          </Routes>
+        <TawkTo />
+        <Routes>
+          <Route path='/' element={localStorage.getItem("Access") == null ? <Home /> : <CryptoDataFetcher />} />
+          <Route path='/login' element={localStorage.getItem("Access") == null ? <Login /> : <Error />} />
+          <Route path='/register' element={localStorage.getItem("Access") == null ? <Register /> : <Error />} />
+          <Route path='/followers' element={localStorage.getItem("Access") == null ? <Error /> : <Followers />} />
+          <Route path='/introductiondemo' element={<IntroDemo />} />
+          <Route path='/profile' element={localStorage.getItem("Access") == null ? <Error /> : <Profile />} />
+          <Route path='/binomers' element={localStorage.getItem("Access") == null ? <Error /> : <Reyting />} />
+          <Route path='/ban' element={user?.useractived === false ? <Baned /> : <Baned />} />
+          <Route path='/transaction' element={localStorage.getItem("Access") == null ? <Error /> : <Transaction />} />
+          <Route path="/coin/:symbol" element={localStorage.getItem("Access") == null ? <Error /> : <Product />} />
+          <Route path="/user/:id" element={localStorage.getItem("Access") == null ? <Error /> : <User />} />
+          <Route path="/update/:id" element={localStorage.getItem("Access") == null ? <Error /> : <Update />} />
+          <Route path='/admin' element={user?.role === "admin" && user?.useractived === true ? <Admin /> : <Error />} />
+          <Route path='/admin-users' element={user?.role === "admin" && user?.useractived === true ? <AdminUsers /> : <Error />} />
+          <Route path='/admin-admins' element={user?.role === "admin" && user?.useractived === true ? <AdminAdmins /> : <Error />} />
+          <Route path='/admin-transaction' element={user?.role === "admin" && user?.useractived === true ? <AdminTransaction /> : <Error />} />
+          <Route path='/admin-edit/:id' element={user?.role === "admin" && user?.useractived === true ? <AdminEdit /> : <Error />} />
+          <Route path='*' element={<Error />} />
+        </Routes>
       </>
     )
   }

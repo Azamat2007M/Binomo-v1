@@ -1,13 +1,20 @@
-var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+import { useEffect } from "react";
 
-(function () {
-  var s1 = document.createElement("script"),
-      s0 = document.getElementsByTagName("script")[0];
+const TawkTo = () => {
+  useEffect(() => {
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function() {
+      var s1 = document.createElement("script"),
+          s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = "https://embed.tawk.to/YOUR_TAWK_ID/default";
+      s1.charset = "UTF-8";
+      s1.setAttribute("crossorigin", "*");
+      s0.parentNode.insertBefore(s1, s0);
+    })();
+  }, []);
 
-  s1.async = true;
-  s1.src = "https://embed.tawk.to/69b1988a9dd4d71c370f23f5/1jjernnqs";
-  s1.charset = "UTF-8";
-  s1.setAttribute("crossorigin", "*");
+  return null;
+};
 
-  s0.parentNode.insertBefore(s1, s0);
-})();
+export default TawkTo;
