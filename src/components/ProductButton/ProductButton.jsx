@@ -14,6 +14,7 @@ const ProductButton = ({userId, coin, amount, tradePosition, onTradeCreated, dur
     setLoading(true);
     try {
       const getTrans = await axios.get("https://binomo-transactions-v1.onrender.com/transactions")
+      
       if (getTrans.data.find((el) => el.status == "open" && el.userId === userId)) {
         toast.warning("You already have an open deal!", {
           autoClose: 3000,
@@ -32,7 +33,8 @@ const ProductButton = ({userId, coin, amount, tradePosition, onTradeCreated, dur
         tradePosition,  
         duration
       });
-
+      console.log(response);
+      
       const trade = response.data;
       toast.success(`✅ ${tradePosition.toUpperCase()} successfully executed!`, {
         autoClose: 3000,
