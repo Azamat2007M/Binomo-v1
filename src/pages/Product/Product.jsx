@@ -350,11 +350,11 @@ const CryptoDetail = () => {
                       <b>Amount: +5000$</b>
                     </div>
                     <div className="bl-right">
-                      <p>10000$ / {cbalance * 100}$</p>
+                      <p>10000$ / {user?.bonusClaimed ? 10000 : cbalance * 100}$</p>
                       <span className="bar">
                         <span
                           className="profit"
-                          style={{ width: `${cbalance}%` }}
+                          style={{ width: `${user?.bonusClaimed ? 100 : cbalance}%` }}
                         ></span>
                       </span>
                     </div>
@@ -391,12 +391,13 @@ const CryptoDetail = () => {
                         <img src={emptyImg} alt="Empty" />
                       </div>
                     ) : (
-                      getDisplayedProducts().map((el) => (
+                      getDisplayedProducts().filter((data) => data.name != symbol.slice(0, 3)).map((el) => (
                         <div
                           className="mc-line"
                           key={el._id}
                           onClick={() => {
                             navigate(`/coin/${el.symbol.toUpperCase()}USDT`)
+                            window.location.reload()
                           }}
                         >
                           <img src={el.image} alt={el.name} />

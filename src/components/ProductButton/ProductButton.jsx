@@ -14,7 +14,6 @@ const ProductButton = ({userId, coin, amount, tradePosition, onTradeCreated, dur
     setLoading(true);
     try {
       const getTrans = await axios.get("https://binomo-transactions-v1.onrender.com/transactions")
-      console.log(getTrans);
       
       if (getTrans.data.find((el) => el.status == "open" && el.userId === userId)) {
         toast.warning("You already have an open deal!", {
@@ -26,14 +25,20 @@ const ProductButton = ({userId, coin, amount, tradePosition, onTradeCreated, dur
         });
         return false
       }
+      const coinPrice = await axios.get(
+        `https://api.binance.com/api/v3/ticker/price?symbol=${coin.toUpperCase()}`
+      );
+      
       
       const response = await axios.post("https://binomo-transactions-v1.onrender.com/transactions", {
         userId,
+        coinPrice: coinPrice.data.price,
         coin,           
         amount,         
         tradePosition,  
         duration
       });
+      console.log(response);
       
       
       const trade = response.data;
