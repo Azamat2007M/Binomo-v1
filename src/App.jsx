@@ -20,7 +20,7 @@
   import AdminEdit from './pages/AdminEdit/AdminEdit'
   import { jwtDecode } from 'jwt-decode'
   import { useGetByIdQuery } from './redux/features/users'
-  import TawkTo from './tawk'
+  import TawkTo from './Tawk'
 
   const App = () => {   
     const decoded = localStorage.getItem("Access")
