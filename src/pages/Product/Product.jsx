@@ -167,9 +167,7 @@ const CryptoDetail = () => {
     try {
       const res = await axios.get('https://binomo-transactions-v1.onrender.com/transactions');
       
-      const userTransactions = res.data.filter((transaction) => String(transaction.userId) === String(decoded.userId));
-      console.log(userTransactions);
-      
+      const userTransactions = res.data.filter((transaction) => String(transaction.userId) === String(decoded.userId));      
       
       setInfoTrans(userTransactions);
 
