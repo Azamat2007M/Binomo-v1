@@ -166,7 +166,11 @@ const CryptoDetail = () => {
   const getTransaction = async () => {
     try {
       const res = await axios.get('https://binomo-transactions-v1.onrender.com/transactions');
-      const userTransactions = res.data.filter((transaction) => transaction.userId === decoded.userId);
+      
+      const userTransactions = res.data.filter((transaction) => String(transaction.userId) === String(decoded.userId));
+      console.log(userTransactions);
+      
+      
       setInfoTrans(userTransactions);
 
       userTransactions.forEach((transaction) => {
@@ -179,8 +183,8 @@ const CryptoDetail = () => {
     }
   };
 
-  const startTransactionTimer = (id, endTime) => {
-    const interval = setInterval(() => {
+  const startTransactionTimer = (id, endTime, coinName, position) => {
+    const interval = setInterval(async () => {
       const now = new Date();
       const end = new Date(endTime);
       const diff = Math.floor((end - now) / 1000);
@@ -188,10 +192,18 @@ const CryptoDetail = () => {
       if (diff <= 0) {
         clearInterval(interval);
         setActiveTimers((prev) => ({ ...prev, [id]: 0 }));
-        setIsTActive(false)
+        setIsTActive(false);
+
+        await getTransaction();
+
+        toast.info(`Transaction with ${coinName} was closed successfully! Check your balance.`, {
+          autoClose: 4000,
+          style: { background: "#222", color: "#fff" }
+        }); 
+
       } else {
         setActiveTimers((prev) => ({ ...prev, [id]: diff }));
-        setIsTActive(true)
+        setIsTActive(true);
       }
     }, 1000);
   };
@@ -492,14 +504,13 @@ const CryptoDetail = () => {
             <div className="ci-flex">
               <div className="ci-line">
                 <img
-                  src={productInfo
-                    .filter(
-                      (el) =>
-                        el.symbol + "usdt" === cryptoData.symbol.toLowerCase()
-                    )
-                    .map((el) => el.image)}
-                  alt=""
-                />
+                    src={
+                      productInfo.find(
+                        (el) => (el.symbol + "usdt").toLowerCase() === cryptoData.symbol.toLowerCase()
+                      )?.image || ""
+                    }
+                    alt={cryptoData.symbol}
+                  />
                 <div className="ci-text">
                   <h2>
                     {productInfo
@@ -541,12 +552,12 @@ const CryptoDetail = () => {
             </div>
           </div>
           {infoTrans.map((t) => (
-            <div key={t._id} className="transaction-wrapper">
+            <div key={t.id} className="transaction-wrapper">
               {t.status === "open" && isTActive && (
                 <div className="transaction-card">
                   <b>{t.coin}</b>
                   <b style={{color: t.tradePosition == "Sell" ? 'red' : 'lime'}} className='b-tradep'>{t?.tradePosition}</b>
-                  <b>{activeTimers[t._id] || 0}s</b>
+                  <b>{activeTimers[t.id] || 0}s</b>
                 </div>
               )}
             </div>
