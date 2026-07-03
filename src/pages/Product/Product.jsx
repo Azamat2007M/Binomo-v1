@@ -553,7 +553,7 @@ const CryptoDetail = () => {
           ))}
           <div className="ct-trade">
             <ProductButton
-              userId={user._id}
+              userId={decoded?.userId}
               coin={symbol}
               amount={countTrade}
               tradePosition="Buy"
@@ -561,7 +561,7 @@ const CryptoDetail = () => {
               onTradeCreated={() => getTransaction()}
             />
             <ProductButton
-              userId={user._id}
+              userId={decoded?.userId}
               coin={symbol}
               amount={countTrade}
               tradePosition="Sell"
