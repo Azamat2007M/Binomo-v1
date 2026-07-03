@@ -29,7 +29,7 @@ const Binomers = () => {
     try {      
       setIsFollowing(true); 
 
-      const userToUpdate = buser.find(user => user?._id === userid);
+      const userToUpdate = buser.find(user => user?.id === userid);
       
       if (!userToUpdate) {
         console.error("User not found");
@@ -59,7 +59,7 @@ const Binomers = () => {
     try {
       setIsFollowing(true); 
 
-      const userToUpdate = buser.find(user => user?._id === userid);
+      const userToUpdate = buser.find(user => user?.id === userid);
       
       if (!userToUpdate) {
         console.error("User not found");
@@ -77,7 +77,7 @@ const Binomers = () => {
         await axios.patch(`${API}users/${userid}`, {
           followers: userToUpdate.followers - 1 
         });
-        await axios.delete(`${API}binomers/${similarEntry._id}`);
+        await axios.delete(`${API}binomers/${similarEntry.id}`);
       }
 
       window.location.reload()
@@ -145,7 +145,7 @@ const Binomers = () => {
               .reverse()
               .map((el) => {
                 return (
-                  <Link to={`/user/${el?._id}`} className="r-line" key={el?._id}>
+                  <Link to={`/user/${el?.id}`} className="r-line" key={el?.id}>
                     <img src={`${el?.image}`} alt="" />
                     <b>{el?.name}</b>
                     <p>{Math.round(el?.wallet)}$</p>
@@ -156,7 +156,7 @@ const Binomers = () => {
         ) : (
           <div className="b-card">
             {buser.slice(0, 50).map((el) => (
-              <div className="b-line" key={el?._id}>
+              <div className="b-line" key={el?.id}>
                 <div className="bl-top">
                   <img src={`${el?.image}`} alt="" />
                   <div className="bl-info">
@@ -166,18 +166,18 @@ const Binomers = () => {
                 </div>
                 <p>Balance: {Math.round(el?.wallet)}$</p>
                 <div className="b-buttons">
-                  {binomers?.find((item) => item?.user_id === decoded?.userId &&  el?._id === item?.author_id) ? (
+                  {binomers?.find((item) => item?.user_id === decoded?.userId &&  el?.id === item?.author_id) ? (
                     <button disabled={isFollowing} onClick={() => {
                       handleT(el?._id)
                     }} className='b-followed'>Followed</button>
-                  ) : (el?._id === decoded?.userId) ? (
+                  ) : (el?.id === decoded?.userId) ? (
                     <button disabled={isFollowing} className='b-followed'>You</button>
                   ) : (
                     <button onClick={() => {
-                      handleF(el?._id)
+                      handleF(el?.id)
                     }} disabled={isFollowing} className='b-follow'>Follow</button>
                   )}
-                  <Link to={`/user/${el?._id}`} className='b-view'>View</Link>
+                  <Link to={`/user/${el?.id}`} className='b-view'>View</Link>
                 </div>
               </div>
             ))}

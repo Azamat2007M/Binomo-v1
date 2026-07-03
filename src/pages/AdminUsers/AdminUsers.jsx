@@ -172,7 +172,7 @@ const AdminUsers = () => {
                     ) : (
                         userSearch?.filter((el) => el?.role === 'user').map((el) => {
                             return(
-                                <div className="ad-line"  key={el?._id}>
+                                <div className="ad-line"  key={el?.id}>
                                     <div className="al-line">
                                         <span>{el?.name}</span>
                                     </div>
@@ -186,11 +186,11 @@ const AdminUsers = () => {
                                     <span style={{margin: "auto"}}>{el?.useractived ? 'Active' : 'Baned'}</span>
                                 </div>
                                 <div className="al-btn">
-                                <button className='b-ban' onClick={() => updateUserStatus(el?._id, el?.useractived)}>{el?.useractived ? "Ban" : "Unban"}</button>
-                                <Link to={`/admin-edit/${el?._id}`}>
+                                <button className='b-ban' onClick={() => updateUserStatus(el?.id, el?.useractived)}>{el?.useractived ? "Ban" : "Unban"}</button>
+                                <Link to={`/admin-edit/${el?.id}`}>
                                   <button className='b-edit'>Edit</button>
                                 </Link>
-                                <button className='b-delete' onClick={() => removeUser(el?._id)}>Delete</button>
+                                <button className='b-delete' onClick={() => removeUser(el?.id)}>Delete</button>
                                 </div>
                             </div>
                         )

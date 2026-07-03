@@ -53,7 +53,7 @@ const Nav = () => {
         const currentTrades = res.data.filter(trade => trade.userId === decoded.userId) || [];
         
         previousTrades.forEach((trade) => {
-          const currentTrade = currentTrades.find(t => t._id === trade._id);
+          const currentTrade = currentTrades.find(t => t.id === trade.id);
           if (trade.status === "open" && currentTrade && currentTrade.status === "closed") {
             toast.success(`Trade - ${trade?.coin} is closed`, {
               autoClose: 2000,

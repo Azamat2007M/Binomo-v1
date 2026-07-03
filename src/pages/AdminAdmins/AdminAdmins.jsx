@@ -165,15 +165,15 @@ const AdminAdmins = () => {
                     <span className="text">Admins Control</span>
                 </div>
                 <div className="activity-data-second act-user-scroll">
-                    {adminSearch?.filter((el) => el?.role === 'admin' && el?._id !== decoded?.userId).length === 0 ? (
+                    {adminSearch?.filter((el) => el?.role === 'admin' && el?.id !== decoded?.userId).length === 0 ? (
                         <div className="no-data">
                             <PiEmptyBold />
                             <p style={{color: checking ? "white" : "black"}}>No admins found</p>
                         </div>
                     ) : (
-                        adminSearch?.filter((el) => el?.role === 'admin' && el?._id !== decoded?.userId).map((el) => {
+                        adminSearch?.filter((el) => el?.role === 'admin' && el?.id !== decoded?.userId).map((el) => {
                             return(
-                                <div className="ad-line" key={el?._id}>
+                                <div className="ad-line" key={el?.id}>
                                     <div className="al-line">
                                         <span>{el?.name}</span>
                                     </div>
@@ -187,9 +187,9 @@ const AdminAdmins = () => {
                                     <span style={{margin: "auto"}}>{el?.useractived ? 'Active' : 'Baned'}</span>
                                 </div>
                                 <div className="al-btn">
-                                  <button className='b-ban' onClick={() => updateUserStatus(el?._id, el?.useractived)}>{el?.useractived ? "Ban" : "Unban"}</button>
-                                  <button className='b-edit' onClick={() => navigate(`/admin-edit/${el?._id}`)}>Edit</button>
-                                  <button className='b-delete' onClick={() => removeUser(el?._id)}>Delete</button>
+                                  <button className='b-ban' onClick={() => updateUserStatus(el?.id, el?.useractived)}>{el?.useractived ? "Ban" : "Unban"}</button>
+                                  <button className='b-edit' onClick={() => navigate(`/admin-edit/${el?.id}`)}>Edit</button>
+                                  <button className='b-delete' onClick={() => removeUser(el?.id)}>Delete</button>
                                 </div>
                             </div>
                         )

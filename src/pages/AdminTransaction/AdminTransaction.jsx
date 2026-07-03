@@ -16,7 +16,7 @@ const AdminAdmins = () => {
   const decoded = localStorage.getItem("Access")
     ? jwtDecode(localStorage.getItem("Access"))
     : {};
-  const { data: buser, isLoading, error } = useGetUserQuery();
+  const { data: buser, isLoading, error } = useGetUserQuery();  
   const {data: user} = useGetByIdQuery(decoded?.userId, {
       skip: !decoded?.userId
   });
@@ -156,9 +156,9 @@ const AdminAdmins = () => {
                 <div className="activity-data-second act-tr-scroll">
                     {filteredTransactions.length > 0 ? filteredTransactions?.map((el) => {
                         return(
-                            <div className="adt-line" key={el?._id}>
+                            <div className="adt-line" key={el?.id}>
                                 <div className="al-line">
-                                    <span>{buser?.find((item) => el?.userId === item?._id)?.name || 'Deleted Binomer'}</span>
+                                    <span>{buser?.find((item) => String(el?.userId) === String(item?.id))?.name || 'Deleted Binomer'}</span>
                                 </div>
                                 <div className="al-line">
                                     <span>{el?.coin}</span>

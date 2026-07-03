@@ -95,9 +95,9 @@ const Transaction = () => {
                     <b>Position</b>
                     <b>Amount</b>
                 </div>
-                {infoTrans.filter((el) => el?.userId === decoded?.userId).length > 0 ? (
+                {infoTrans.filter((el) => String(el?.userId) === String(decoded?.userId)).length > 0 ? (
                     <section>
-                        {infoTrans.filter((el) => el?.userId === decoded?.userId).reverse().map((el) => {
+                        {infoTrans.filter((el) => String(el?.userId) === String(decoded?.userId)).reverse().map((el) => {
                             const cryptoFind = cryptoDataAll.find((coin) => coin.symbol == el?.coin)
                             let profitValue = 0;
                             

@@ -186,7 +186,7 @@ const Admin = () => {
                         <div className="data-info">
                           {filteredUsers?.map((el) => {
                           return(
-                            <span key={el?._id}>{el?.name}</span>
+                            <span key={el?.id}>{el?.name}</span>
                           )
                         })}
                         </div>
@@ -196,7 +196,7 @@ const Admin = () => {
                         <div className="data-info">
                         {filteredUsers?.map((el) => {
                           return(
-                            <span key={el?._id}>{el?.email}</span>
+                            <span key={el?.id}>{el?.email}</span>
                           )
                         })}
                         </div>
@@ -206,7 +206,7 @@ const Admin = () => {
                         <div className="data-info">
                         {filteredUsers?.map((el) => {
                           return(
-                            <span key={el?._id}>{Number(el?.wallet).toFixed(2)}</span>
+                            <span key={el?.id}>{Number(el?.wallet).toFixed(2)}</span>
                           )
                         })}
                         </div>
@@ -216,7 +216,7 @@ const Admin = () => {
                         <div className="data-info">
                         {filteredUsers?.map((el) => {
                           return(
-                            <div className="dt-line" key={el?._id}>
+                            <div className="dt-line" key={el?.id}>
                               {el?.level === 1 ? (
                                 <span className='p-act'>Bronze</span>
                               ) : el?.level === 2 ? (
@@ -238,7 +238,7 @@ const Admin = () => {
                         <div className="data-info">
                         {filteredUsers?.map((el) => {
                           return(
-                            <span key={el?._id}>{el?.useractived ? 'Active' : 'False'}</span>
+                            <span key={el?.id}>{el?.useractived ? 'Active' : 'False'}</span>
                           )
                         })}
                         </div>
