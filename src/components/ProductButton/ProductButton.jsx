@@ -38,7 +38,7 @@ const ProductButton = ({userId, coin, amount, tradePosition, onTradeCreated, dur
         tradePosition,  
         duration
       });
-      console.log(response);
+      console.log(response, userId);
       
       
       const trade = response.data;
