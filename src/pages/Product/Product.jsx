@@ -549,12 +549,12 @@ const CryptoDetail = () => {
             </div>
           </div>
           {infoTrans.map((t) => (
-            <div key={t.id} className="transaction-wrapper">
+            <div key={t._id} className="transaction-wrapper">
               {t.status === "open" && isTActive && (
                 <div className="transaction-card">
-                  <b>{t.coin}</b>
+                  <b>{t._id}</b>
                   <b style={{color: t.tradePosition == "Sell" ? 'red' : 'lime'}} className='b-tradep'>{t?.tradePosition}</b>
-                  <b>{activeTimers[t.id] || 0}s</b>
+                  <b>{activeTimers[t._id] || 0}s</b>
                 </div>
               )}
             </div>
