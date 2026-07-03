@@ -61,7 +61,7 @@ const CryptoDataFetcher = () => {
           <section id="coins-section">
             {product.map((element) => {
               return(
-                <div className='c-wrapper' key={element._id}>
+                <div className='c-wrapper' key={element.id}>
                   {cryptoData.filter((el) => el.symbol.toString().substring(3,7) === 'USDT' && el.symbol.toLowerCase() == element.symbol + 'usdt').map((data) => (
                     <div className='coins' onClick={() => {
                       navigate(`/coin/${data.symbol}`)

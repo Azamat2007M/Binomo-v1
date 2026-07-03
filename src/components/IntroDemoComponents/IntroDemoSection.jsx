@@ -69,6 +69,7 @@ const IntroDemoSection = () => {
                                 <b>Predict a price direction, make a trade, and wait a bit. If the price goes in your <br /> direction, you’ll profit!</b><br />
                                 <button onClick={() => {
                                     navigate('/')
+                                    window.location.reload()
                                 }}>Next <FaArrowRightLong className='i-arrow'/></button>
                             </div>
                         </div>

@@ -9,6 +9,9 @@ import './register.scss'
 const Register = () => {
   const API = 'https://binomo-backend-v1.onrender.com';
   const [pass, setPass] = useState(false);
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [status, setStatus] = useState({
     status: 200,
@@ -46,12 +49,17 @@ const Register = () => {
   const regEnter = async (e) => {
     e.preventDefault();
 
+    if (!imageFile) {
+      setStatus({ status: 400, title: "Please upload an image!" });
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append("image", imageFile);
-      formData.append("email", e.target[1].value);
-      formData.append("name", e.target[2].value);
-      formData.append("password", e.target[3].value);
+      formData.append("email", email);
+      formData.append("name", name);   
+      formData.append("password", password); 
       formData.append("wallet", 10000);
       formData.append("accepted", true);
       formData.append("typewallet", "dollar");
@@ -69,16 +77,17 @@ const Register = () => {
         }
       });
 
-      setStatus({
-        status: 200,
-        title: ""
-      });
+      setStatus({ status: 200, title: "" });
       navigate('/login');
 
     } catch (error) {
+      const errorMsg = typeof error.response?.data === 'string' 
+        ? error.response.data 
+        : "Registration failed. Try again.";
+
       setStatus({
         status: 400,
-        title: error.response?.data || "Error"
+        title: errorMsg
       });
       console.log(error);
     }
@@ -110,14 +119,38 @@ const Register = () => {
             />
             <label htmlFor="file">Выберите файл</label>
           </div>
-          <input type="email" className={status.status == 200 ? "status-s" : "status-e"} placeholder="Email" onChange={() => setStatus({status: 200, title: ""})} required />
-          <input type="text" className={status.status == 200 ? "status-s" : "status-e"} placeholder="Name" onChange={() => setStatus({status: 200, title: ""})} required />
+          <input 
+            type="email" 
+            value={email}
+            className={status.status == 200 ? "status-s" : "status-e"} 
+            placeholder="Email" 
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setStatus({status: 200, title: ""});
+            }} 
+            required 
+          />          
+          <input 
+            type="text" 
+            value={name}
+            className={status.status == 200 ? "status-s" : "status-e"} 
+            placeholder="Name" 
+            onChange={(e) => {
+              setName(e.target.value);
+              setStatus({status: 200, title: ""});
+            }} 
+            required 
+          />
           <div className="pass">
             <input
               type={pass ? 'text' : 'password'}
+              value={password}
               placeholder="Password"
               className={status.status == 200 ? "status-s" : "status-e"}
-              onChange={() => setStatus({status: 200, title: ""})}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setStatus({status: 200, title: ""});
+              }}
               required
             />
             {pass ? (

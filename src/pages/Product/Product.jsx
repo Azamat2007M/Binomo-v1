@@ -1,4 +1,4 @@
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState, memo, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import TradingViewPart4 from "../../components/TradingViewPart4/TradingViewPart4";
@@ -42,6 +42,7 @@ const CryptoDetail = () => {
   const [tg, setTg] = useState("");
   const B_API = "https://api.binance.com/"
   const [counts, setCounts] = useState(3);
+  const intervalsRef = useRef({});
   const [cryptoDataAll, setCryptoDataAll] = useState([]);
   const decoded = localStorage.getItem("Access")
     ? jwtDecode(localStorage.getItem("Access"))
@@ -173,7 +174,7 @@ const CryptoDetail = () => {
 
       userTransactions.forEach((transaction) => {
         if (transaction.status === "open") {
-          startTransactionTimer(transaction._id, transaction.endTime);
+          startTransactionTimer(transaction._id, transaction.endTime, transaction.coin);
         }
       });
     } catch (err) {
@@ -181,29 +182,46 @@ const CryptoDetail = () => {
     }
   };
 
-  const startTransactionTimer = (id, endTime, coinName, position) => {
+  const startTransactionTimer = (id, endTime, coinName) => {
+    // Если для этой сделки уже запущен таймер, очищаем его, чтобы не дублировать
+    if (intervalsRef.current[id]) {
+      clearInterval(intervalsRef.current[id]);
+    }
+
     const interval = setInterval(async () => {
       const now = new Date();
       const end = new Date(endTime);
       const diff = Math.floor((end - now) / 1000);
 
       if (diff <= 0) {
-        clearInterval(interval);
-        setActiveTimers((prev) => ({ ...prev, [id]: 0 }));
+        clearInterval(intervalsRef.current[id]);
+        delete intervalsRef.current[id]; // Удаляем из хранилища
+
+        // Проверяем, стоял ли до этого таймер больше 0, 
+        // чтобы тост сработал строго ОДИН раз в момент закрытия
+        setActiveTimers((prev) => {
+          if (prev[id] > 0) {
+            toast.info(`Transaction with ${coinName} was closed successfully! Check your balance.`, {
+              autoClose: 4000,
+              style: { background: "#222", color: "#fff" }
+            });
+          }
+          return { ...prev, [id]: 0 };
+        });
+
         setIsTActive(false);
 
+        // Перезапрашиваем транзакции, чтобы обновить их статус на "closed"
         await getTransaction();
-
-        toast.info(`Transaction with ${coinName} was closed successfully! Check your balance.`, {
-          autoClose: 4000,
-          style: { background: "#222", color: "#fff" }
-        }); 
 
       } else {
         setActiveTimers((prev) => ({ ...prev, [id]: diff }));
         setIsTActive(true);
       }
     }, 1000);
+
+    // Сохраняем ссылку на интервал
+    intervalsRef.current[id] = interval;
   };
 
   const updateTradingCount = (type) => {
@@ -220,6 +238,12 @@ const CryptoDetail = () => {
       setTimer(timer > 1 ? timer - 1 : timer);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      Object.values(intervalsRef.current).forEach(clearInterval);
+    };
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -554,7 +578,7 @@ const CryptoDetail = () => {
                 <div className="transaction-card">
                   <b>{t.coin}</b>
                   <b style={{color: t.tradePosition == "Sell" ? 'red' : 'lime'}} className='b-tradep'>{t?.tradePosition}</b>
-                  <b>{activeTimers[t.id] || 0}s</b>
+                  <b>{activeTimers[t._id] || 0}s</b>
                 </div>
               )}
             </div>
