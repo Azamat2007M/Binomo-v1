@@ -403,20 +403,22 @@ const CryptoDetail = () => {
                         <img src={emptyImg} alt="Empty" />
                       </div>
                     ) : (
-                      getDisplayedProducts().filter((data) => data.name != symbol.slice(0, 3)).map((el) => (
-                        <div
-                          className="mc-line"
-                          key={el._id}
-                          onClick={() => {
-                            navigate(`/coin/${el.symbol.toUpperCase()}USDT`)
-                            window.location.reload()
-                          }}
-                        >
-                          <img src={el.image} alt={el.name} />
-                          <h2>{el.name}</h2>
-                          <h2 style={{textAlign: 'right'}}>{el.price}$</h2>
-                        </div>
-                      ))
+                      getDisplayedProducts()
+                        .filter((data) => data.name !== symbol.slice(0, 3))
+                        .map((el) => (
+                          <div
+                            className="mc-line"
+                            key={el.id} 
+                            onClick={() => {
+                              navigate(`/coin/${el.symbol.toUpperCase()}USDT`);
+                              window.location.reload();
+                            }}
+                          >
+                            <img src={el.image} alt={el.name} />
+                            <h2>{el.name}</h2>
+                            <h2 style={{ textAlign: 'right' }}>{el.price}$</h2>
+                          </div>
+                        ))
                     )}
                   </div>
                 )}
@@ -513,12 +515,9 @@ const CryptoDetail = () => {
                   />
                 <div className="ci-text">
                   <h2>
-                    {productInfo
-                      .filter(
-                        (el) =>
-                          el.symbol + "usdt" === cryptoData.symbol.toLowerCase()
-                      )
-                      .map((el) => el.name)}
+                    {productInfo.find(
+                      (el) => (el.symbol + "usdt").toLowerCase() === cryptoData.symbol.toLowerCase()
+                    )?.name || "Coin"}
                   </h2>
                   <h4>Price: {Number(cryptoData.price)}$</h4>
                 </div>
