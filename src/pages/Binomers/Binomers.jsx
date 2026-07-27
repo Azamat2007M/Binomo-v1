@@ -71,9 +71,7 @@ const Binomers = () => {
 
       const similarEntry = response.data.find(el => el.author_id === userid && el.user_id === decoded.userId);
 
-      if (similarEntry) {
-        console.log(similarEntry._id);
-        
+      if (similarEntry) {        
         await axios.patch(`${API}users/${userid}`, {
           followers: userToUpdate.followers - 1 
         });

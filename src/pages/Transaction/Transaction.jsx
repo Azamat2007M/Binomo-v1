@@ -32,7 +32,7 @@ const Transaction = () => {
             
             res.data.forEach((transaction) => {
                 if (transaction.status === "open" && new Date(transaction.endTime) > new Date()) {
-                    startTransactionTimer(transaction._id, transaction.endTime);
+                    startTransactionTimer(transaction.id, transaction.endTime);
                 }
             });
         } catch (err) {
@@ -125,7 +125,7 @@ const Transaction = () => {
                                     <b style={{color: 'yellow'}}>{Number(el?.amount).toFixed(2)}$</b>
                                     <div className="trade-timer" style={(el?.status == 'open' && isTActive) ? {display: "block"} : {display: "none"}}>
                                         {el.status === "open" && isTActive && (
-                                            <b>{activeTimers[el._id] || 0}s</b>
+                                            <b>{activeTimers[el.id] || 0}s</b>
                                         )}
                                     </div>
                                 </div>

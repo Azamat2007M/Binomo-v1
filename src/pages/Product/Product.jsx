@@ -174,7 +174,7 @@ const CryptoDetail = () => {
 
       userTransactions.forEach((transaction) => {
         if (transaction.status === "open") {
-          startTransactionTimer(transaction._id, transaction.endTime, transaction.coin);
+          startTransactionTimer(transaction.id, transaction.endTime, transaction.coin);
         }
       });
     } catch (err) {
@@ -578,7 +578,7 @@ const CryptoDetail = () => {
                 <div className="transaction-card">
                   <b>{t.coin}</b>
                   <b style={{color: t.tradePosition == "Sell" ? 'red' : 'lime'}} className='b-tradep'>{t?.tradePosition}</b>
-                  <b>{activeTimers[t._id] || 0}s</b>
+                  <b>{activeTimers[t.id] || 0}s</b>
                 </div>
               )}
             </div>

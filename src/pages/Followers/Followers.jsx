@@ -20,7 +20,7 @@ const Followers = () => {
   const { data: buser, isLoading, error } = useGetUserQuery();
   const filteredBinomers = binomers
                 .filter(item => item.author_id === decoded?.userId)
-                .filter(el => buser?.some(elements => elements._id === el.user_id));
+                .filter(el => buser?.some(elements => elements.id === el.user_id));
 
   const getBinomers = async () => {
     try {
@@ -79,10 +79,10 @@ const Followers = () => {
             .filter(item => item.user_id === decoded?.userId)
             .map((el) => {
               return (
-                <Link to={`/user/${el.author_id}`} className="r-line" key={el._id}>
-                  <img src={buser.filter((elements) => elements._id === el.author_id).map((elements) => elements.image)} alt="" />
-                  <b>{buser.filter((elements) => elements._id === el.author_id).map((elements) => elements.name)}</b>
-                  <p>{Math.round(buser.filter((elements) => elements._id === el.author_id).map((elements) => elements.wallet))}$</p>
+                <Link to={`/user/${el.author_id}`} className="r-line" key={el.id}>
+                  <img src={buser.filter((elements) => elements.id === el.author_id).map((elements) => elements.image)} alt="" />
+                  <b>{buser.filter((elements) => elements.id === el.author_id).map((elements) => elements.name)}</b>
+                  <p>{Math.round(buser.filter((elements) => elements.id === el.author_id).map((elements) => elements.wallet))}$</p>
                 </Link>
               );
             })) : (
@@ -95,9 +95,9 @@ const Followers = () => {
           <div className="fc-wrapper">
             <div className="fl-card">
             {filteredBinomers.map((el) => {
-                const user = buser.find(elements => elements._id === el.user_id);
+                const user = buser.find(elements => elements.id === el.user_id);
                 return (
-                  <div className="f-line" key={el._id}>
+                  <div className="f-line" key={el.id}>
                     <div className="some">
                       <div className="fl-top">
                         <img src={user?.image} alt="" />
