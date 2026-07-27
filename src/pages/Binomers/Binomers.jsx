@@ -166,11 +166,11 @@ const Binomers = () => {
                 </div>
                 <p>Balance: {Math.round(el?.wallet)}$</p>
                 <div className="b-buttons">
-                  {binomers?.find((item) => item?.user_id === decoded?.userId &&  el?.id === item?.author_id) ? (
+                  {binomers?.find((item) => String(item?.user_id) === String(decoded?.userId) &&  String(el?.id) === String(item?.author_id)) ? (
                     <button disabled={isFollowing} onClick={() => {
-                      handleT(el?._id)
+                      handleT(el?.id)
                     }} className='b-followed'>Followed</button>
-                  ) : (el?.id === decoded?.userId) ? (
+                  ) : (String(el?.id) === String(decoded?.userId)) ? (
                     <button disabled={isFollowing} className='b-followed'>You</button>
                   ) : (
                     <button onClick={() => {

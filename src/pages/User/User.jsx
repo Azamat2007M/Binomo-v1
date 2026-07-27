@@ -28,7 +28,7 @@ const User = () => {
     try {      
       setIsFollowing(true); 
 
-      const userToUpdate = busers.find(user => user?._id === userid);
+      const userToUpdate = busers.find(user => String(user?.id) === String(userid));
       
       if (!userToUpdate) {
         console.error("User not found");
@@ -36,7 +36,7 @@ const User = () => {
         return;
       }
       
-      const similarEntry = busers.find(el => el.author_id === userid && el.user_id === decoded.userId);
+      const similarEntry = busers.find(el => String(el.author_id) === String(userid) && String(el.user_id) === String(decoded.userId));
       
       if (!similarEntry) {        
         await axios.patch(`${API}users/${userid}`, {
@@ -58,7 +58,7 @@ const User = () => {
     try {
       setIsFollowing(true); 
 
-      const userToUpdate = busers.find(user => user?._id === userid);
+      const userToUpdate = busers.find(user => String(user?.id) === String(userid));
       console.log(userToUpdate);
       
       if (!userToUpdate) {
@@ -72,12 +72,12 @@ const User = () => {
       const similarEntry = response.data.find(el => el.author_id === userid && el.user_id === decoded.userId);
 
       if (similarEntry) {
-        console.log(similarEntry._id);
+        console.log(similarEntry.id);
         
         await axios.patch(`${API}users/${userid}`, {
           followers: userToUpdate.followers - 1 
         });
-        await axios.delete(`${API}binomers/${similarEntry._id}`);
+        await axios.delete(`${API}binomers/${similarEntry.id}`);
       }
 
       window.location.reload()
@@ -171,15 +171,15 @@ const User = () => {
                             <h2 className='p-act'>KokSultan</h2>
                           ) : null}
                         </div>
-                        {binomers?.find((item) => item?.buser_id === decoded?.buserId &&  buser?._id === item?.author_id) ? (
+                        {binomers?.find((item) => String(item?.buser_id) === String(decoded?.buserId) &&  String(buser?.id) === String(item?.author_id)) ? (
                           <button onClick={() => {
-                            handleT(buser?._id)
+                            handleT(buser?.id)
                           }} disabled={isFollowing} className='b-followed'>Followed</button>
-                        ) : (buser?._id === decoded?.userId) ? (
+                        ) : (String(buser?.id) === String(decoded?.userId)) ? (
                           <button disabled={isFollowing} className='b-followed'>You</button>
                         ) : (
                           <button onClick={() => {
-                            handleF(buser?._id)
+                            handleF(buser?.id)
                           }} disabled={isFollowing} className='b-follow'>Follow</button>
                         )}
                     </div>
