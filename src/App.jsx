@@ -1,27 +1,28 @@
   import { Routes, Route } from 'react-router-dom'
-  import Home from './pages/Home/Home'
-  import IntroDemo from './pages/IntroductionDemo/IntroDemo'
-  import Login from './pages/Login/Login'
-  import Register from './pages/Register/Register'
-  import Profile from './pages/Profile/Profile'
-  import Reyting from './pages/Binomers/Binomers'
-  import CryptoDataFetcher from './pages/CryptoDataFetcher/CryptoDataFetcher'
-  import Product from './pages/Product/Product'
-  import Error from './pages/Error/Error'
-  import Baned from './pages/Baned/Baned'
-  import User from './pages/User/User'
-  import Transaction from './pages/Transaction/Transaction'
-  import Update from './pages/Update/Update'
-  import Admin from './pages/Admin/Admin'
-  import AdminUsers from './pages/AdminUsers/AdminUsers'
-  import AdminAdmins from './pages/AdminAdmins/AdminAdmins'
-  import Followers from './pages/Followers/Followers'
-  import AdminTransaction from './pages/AdminTransaction/AdminTransaction'
-  import AdminEdit from './pages/AdminEdit/AdminEdit'
+  import Home from './pages/main/Home/Home'
+  import IntroDemo from './pages/main/IntroductionDemo/IntroDemo'
+  import Login from './pages/auth/Login/Login'
+  import Register from './pages/auth/Register/Register'
+  import Profile from './pages/extra/Profile/Profile'
+  import Followers from './pages/extra/Followers/Followers'
+  import Binomers from './pages/extra/Binomers/Binomers'
+  import Transaction from './pages/trades/Transaction/Transaction'
+  import Product from './pages/trades/Product/Product'
+  import User from './pages/extra/User/User'
+  import Update from './pages/extra/Update/Update'
+  import Admin from './pages/admins/Admin/Admin'
+  import AdminUsers from './pages/admins/AdminUsers/AdminUsers'
+  import AdminAdmins from './pages/admins/AdminAdmins/AdminAdmins'
+  import AdminTransaction from './pages/admins/AdminTransaction/AdminTransaction'
+  import Error from './pages/out/Error/Error'
+  import AdminEdit from './pages/admins/AdminEdit/AdminEdit'
+  import Baned from './pages/out/Baned/Baned'
+  import CryptoDataFetcher from './pages/main/CryptoDataFetcher/CryptoDataFetcher'
   import { jwtDecode } from 'jwt-decode'
   import { useGetByIdQuery } from './redux/features/users'
   import TawkTo from './Tawk'
   import { useEffect, useState } from 'react'
+
 
   const App = () => {   
     const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("Access"));
@@ -55,7 +56,7 @@
           <Route path='/followers' element={isAuthenticated ? <Followers /> : <Error />} />
           <Route path='/introductiondemo' element={<IntroDemo />} />
           <Route path='/profile' element={isAuthenticated ? <Profile /> : <Error />} />
-          <Route path='/binomers' element={isAuthenticated ? <Reyting /> : <Error />} />
+          <Route path='/binomers' element={isAuthenticated ? <Binomers /> : <Error />} />
           <Route path='/ban' element={user?.useractived === false ? <Baned /> : <Baned />} />
           <Route path='/transaction' element={isAuthenticated ? <Transaction /> : <Error />} />
           <Route path="/coin/:symbol" element={isAuthenticated ? <Product /> : <Error />} />
